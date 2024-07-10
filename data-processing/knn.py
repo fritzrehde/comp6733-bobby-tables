@@ -42,15 +42,6 @@ def knn(RSSI_train, LOCATION_train, RSSI_test, k):
         # ...
     ]
     """
-<<<<<<< HEAD
     X = np.array([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]])
     nbrs = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(X)
     distances, indices = nbrs.kneighbors(X)
-=======
-    
-    X = np.array([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]])
-    nbrs = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(X)
-    distances, indices = nbrs.kneighbors(X)
-    indices
-    distances
->>>>>>> 4cd6a9eac18060b3ca375544aa661d41318f7112
