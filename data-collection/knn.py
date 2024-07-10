@@ -13,5 +13,31 @@ def knn(RSSI_train, LOCATION_train, RSSI_test, k):
 
     Returns:
     array-like: Predicted labels for the test data.
+    
+    Sample training data
+    RSSI_train = [
+        [-60, -65, -70],  # RSSI values from 3 beacons for sample 1
+        [-55, -60, -75],  # RSSI values from 3 beacons for sample 2
+        # ...
+    ]
+
+    LOCATION_train = [
+        1,  # Location label for sample 1
+        2,  # Location label for sample 2
+        # ...
+    ]
+
+    # Sample test data
+    RSSI_test = [
+        [-58, -63, -68],  # RSSI values from 3 beacons for test sample 1
+        [-53, -58, -73],  # RSSI values from 3 beacons for test sample 2
+        # ...
+    ]
+
+    label_test = [
+        1,  # Location label for test sample 1
+        2,  # Location label for test sample 2
+        # ...
+    ]
     """
     pass
