@@ -1,7 +1,13 @@
 # VERSION Python 3.11.4
+# See requirements.txt for required packages.
+# visit https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NearestNeighbors.html for man, or
+# https://scikit-learn.org/stable/modules/neighbors.html#regression for a complete guide.
 
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
+
+# Doesn't really do anything at the moment, just a wrapper for the sklearn function - will likely need to do
+# some post-processing to get the actual location from the indices, which we will do here.
 
 def knn(RSSI_train, RSSI_test, k): # location indices are implicit
     """
@@ -13,6 +19,7 @@ def knn(RSSI_train, RSSI_test, k): # location indices are implicit
     k (int): Number of neighbors to consider.
 
     Returns:
+    array-like: Predicted distances to the k nearest neighbors for the test data.
     array-like: Predicted labels for the test data.
     
     Sample training data
@@ -44,14 +51,8 @@ def knn(RSSI_train, RSSI_test, k): # location indices are implicit
     """
     nbrs = NearestNeighbors(n_neighbors=k, algorithm='ball_tree').fit(RSSI_train)
     distances, indices = nbrs.kneighbors(RSSI_test)
-    print("DIST:")
-    for dist in distances:
-        print(dist)
-    print()
-    print("INDEX: ")
-    for idx in indices:
-        print(idx)
-        
+    return distances, indices
+
         
 if __name__ == "__main__":
     RSSI_train = np.array([[-60, -65, -70], [-55, -60, -75], [-50, -55, -80]])
