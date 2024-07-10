@@ -45,11 +45,15 @@ def knn(RSSI_train, RSSI_test, k): # location indices are implicit
     nbrs = NearestNeighbors(n_neighbors=k, algorithm='ball_tree').fit(RSSI_train)
     distances, indices = nbrs.kneighbors(RSSI_test)
     print("DIST:")
-    print(distances)
+    for dist in distances:
+        print(dist)
     print()
     print("INDEX: ")
-    print(indices)
+    for idx in indices:
+        print(idx)
+        
+        
 if __name__ == "__main__":
     RSSI_train = np.array([[-60, -65, -70], [-55, -60, -75], [-50, -55, -80]])
     RSSI_test = np.array([[-58, -63, -68], [-53, -58, -73]])
-    knn(RSSI_train, RSSI_test, 2)
+    knn(RSSI_train, RSSI_test, 3)
