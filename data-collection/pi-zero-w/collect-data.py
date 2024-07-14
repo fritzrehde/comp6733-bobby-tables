@@ -28,8 +28,8 @@ n = 5
 
 
 class Fingerprint(BaseModel):
-    x: int
-    y: int
+    x: float
+    y: float
     facing_direction: str
     # Map each base stations ssid to n RSSI measurements.
     base_station_to_rssi: Dict[str, List[float]]
@@ -74,47 +74,39 @@ def collect_ssid_rssi_map():
             rssi = float(device_info[rssi_field])
             ssid_to_rssi[ssid] = rssi
 
-    # rssi_values = []
-    # ssids = []
-    # for line in iw_scan_stdout.splitlines():
-    #     # Parse all rssi and ssid values
-    #     if m := re.search(r'signal: (-?\d+.\d+) dBm', line):
-    #         rssi = m.group(1)
-    #         rssi_values.append(rssi)
-    #     elif m := re.search(r'SSID: (.+)', line):
-    #         ssid = m.group(1)
-    #         ssids.append(ssid)
-    # assert len(rssi_values) == len(ssids)
-    # ssid_to_rssi = {ssid: rssi for (ssid, rssi) in zip(ssids, rssi_values)}
-
     return ssid_to_rssi
+
+
+def try_until_success(f):
+    """Try executing a function until it succeeds."""
+    while True:
+        try:
+            return f()
+        except Exception:
+            print("sth went wrong, trying again...")
 
 
 def fingerprint_at_location() -> List[Fingerprint]:
     print("Go to next fingerprinting location")
 
     # User has to input location.
-    x = int(input("x: "))
-    y = int(input("y: "))
+    x = try_until_success(lambda: float(input("x: ")))
+    y = try_until_success(lambda: float(input("y: ")))
 
     fingerprints = []
 
-    # for facing_direction in ["north", "east", "south", "west"]:
-    for facing_direction in ["south", "west"]:
+    for facing_direction in ["north", "east", "south", "west"]:
         print(f"Please face {facing_direction}")
-        time.sleep(2)
+        input("Press enter when ready")
 
         base_station_to_all_rssi = defaultdict(lambda: [])
 
-        print("Data collection starts in...", end="", flush=True)
-        for i in reversed(range(1, 4)):
-            print(f" {i}", end="", flush=True)
-            time.sleep(1)
-        print()
-
         for i in range(0, n):
             print(f"Collecting sample {i}")
-            for (base_station, rssi) in collect_rssi_values_from_base_stations().items():
+
+            rssi_base_station_values = try_until_success(collect_rssi_values_from_base_stations)
+
+            for (base_station, rssi) in rssi_base_station_values.items():
                 base_station_to_all_rssi[base_station].append(rssi)
 
         fingerprint = Fingerprint(x=x, y=y, facing_direction=facing_direction, base_station_to_rssi=dict(base_station_to_all_rssi))
