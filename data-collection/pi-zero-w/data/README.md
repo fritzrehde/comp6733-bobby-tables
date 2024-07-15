@@ -1,4 +1,4 @@
-See PDF of experimental setup [here](./setup-diagram.pdf).
+See PDF of experimental setup [here](./test-env-diagram.pdf).
 
 - Devices:
     - x ,y ,h measurements in meters; h means distance to floor
