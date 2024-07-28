@@ -3,3 +3,6 @@
 
 # esp
 **/build/**
+
+# venv
+sklearn-env/*
