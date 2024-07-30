@@ -1,20 +1,40 @@
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF
+import numpy as np
 
-# Create a Gaussian process regressor with an RBF kernel
-kernel = RBF()
-gp = GaussianProcessRegressor(kernel=kernel)
+def gaussian(x, y):
+    """
+    Fit a Gaussian Process Regressor to the provided data and make predictions.
 
-# Define your input data and target values
-X = ...  # Your input data
-y = ...  # Your target values
+    This function creates a Gaussian Process Regressor using an RBF kernel, fits it to the input data `x` and target values `y`, 
+    and then makes predictions on the test data `X_test`.
 
-# Fit the Gaussian process regressor to your data
-gp.fit(X, y)
+    Parameters:
+    x (array-like): The input data to fit the Gaussian Process Regressor. (i.e location ID or x,y coords)
+    y (array-like): The target values corresponding to the input data. (i.e RSSI values)
 
-# Predict using the trained Gaussian process regressor
-X_test = ...  # Your test input data
-y_pred = gp.predict(X_test)
+    Returns:
+    y_pred (array-like): The predicted values for the test input data `X_test`.
+    """
+    # Create a Gaussian process regressor with an RBF kernel
+    kernel = RBF() # Research states the kind of kernel doesn't really matter
+    gp = GaussianProcessRegressor(kernel=kernel)
 
-# Print the predicted values
-print(y_pred)
+    # Fit the Gaussian process regressor to your data
+    gp.fit(x, y)
+
+    # Predict using the trained Gaussian process regressor
+    X_test = ...  # Your test input data
+    y_pred = gp.sample_y(X_test, 1, random_state=42)
+
+    # Print the predicted values
+    return y_pred
+
+
+if __name__ == "__main__":
+    LOC_train = np.array([1, 2, 3])
+    RSSI_train = np.array([[-60, -65, -70], [-55, -60, -75], [-50, -55, -80]])
+    RSSI_test = np.array([[-58, -63, -68], [-53, -58, -73]])
+    x = LOC_train  # Your input data
+    y = RSSI_train  # Your target values
+    print(gaussian(x, y))
