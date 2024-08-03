@@ -1,5 +1,5 @@
 # Visual Studio Code
 .vscode/
 
-# esp
-**/build/**
+# venv
+sklearn-env/*
